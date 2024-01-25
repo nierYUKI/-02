@@ -16,19 +16,18 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/admin")
 public class ShiftCreatorsController {
 
-	private final ShiftCreators shiftCreators;
 	private final ShiftCreatorsMapper mapper;
-	
-	@GetMapping("/add")//シフト作成者登録
+
+	@GetMapping("/add/ShiftCreators") //シフト作成者登録
 	public String getadd(Model model) {
-		model.addAttribute("shiftCreators",new ShiftCreators());
+		model.addAttribute("shiftCreators", new ShiftCreators());
 		return "save";
 	}
 
-	@PostMapping("/add")//作成者登録
-	public String postadd(Model model) {
+	@PostMapping("/add/ShiftCreators") //作成者登録
+	public String postadd(Model model, ShiftCreators shiftCreators) {
 		mapper.add(shiftCreators);
 		return "redirect:/save";
-	
-}
+
+	}
 }
