@@ -11,4 +11,8 @@ public class Users {
 	private Integer roleId;//アルバイトか管理者を判断するID
 	private Integer rank;//アルバイトのランクを識別するID
 	private Integer hourlyRate;//ランク事の時給
+	
+//roleIdにシフト作成者(shift_creatorsテーブル)の情報を
+//同時に挿入する為の準備(1/25 11:40)
+	private ShiftCreators shiftCreators;
 }
