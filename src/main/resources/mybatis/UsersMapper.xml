@@ -2,10 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.UsersMapper">
 
-<insert id="add" parameterType="Users">
+<insert id="add" parameterType="Users" useGeneratedKeys="true" keyProperty="userId">
+<!-- ユーザー情報の挿入処理 -->
 insert into users values(null,#{userName},#{password},#{roleId},#{rank},#{hourlyRate})
 
 </insert>
+
+    <!-- シフト作成者情報の挿入処理 -->
+   <insert id="addShiftCreators" parameterType="ShiftCreators" >
+        INSERT INTO shift_creators (shift_creator_id,user_id,job_role_id) 
+        VALUES (null, #{userId}, #{jobRoleId})
+   </insert>
 
 
 </mapper>

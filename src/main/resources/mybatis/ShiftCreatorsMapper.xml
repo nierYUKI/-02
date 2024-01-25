@@ -4,6 +4,6 @@
 
 <insert id="add"  parameterType="ShiftCreators">
 insert into shift_creators 
-value(null,#{userId},#{jobRoleId},#{password})
+value(null,#{userId},#{jobRoleId})
 </insert>
 </mapper>
