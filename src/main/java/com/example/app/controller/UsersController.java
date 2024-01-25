@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.app.domain.ShiftCreators;
 import com.example.app.domain.Users;
+import com.example.app.mapper.JobRankMapper;
 import com.example.app.mapper.UsersMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,14 @@ import lombok.RequiredArgsConstructor;
 public class UsersController {
 	
 	private final UsersMapper mapper;
+	private final JobRankMapper jobRankMapper;
 
+	//接続先URL(localhost:8080/user/add)
 	@GetMapping("/add")//サービスユーザー登録
 	public String getadd(Model model) {
 		model.addAttribute("users",new Users());
+		//アルバイトのランク情報
+		model.addAttribute("jobRanks",jobRankMapper.selectJobRankAll());
 		return "userAdd";
 	}
 	
