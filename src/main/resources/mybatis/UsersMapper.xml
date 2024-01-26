@@ -4,7 +4,7 @@
 
 <insert id="add" parameterType="Users" useGeneratedKeys="true" keyProperty="userId">
 <!-- ユーザー情報の挿入処理 -->
-insert into users values(null,#{userName},#{password},#{roleId},#{rank},#{hourlyRate})
+insert into users values(null,#{userName},#{password},#{roleId},#{rank})
 
 </insert>
 

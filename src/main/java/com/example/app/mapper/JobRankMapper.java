@@ -12,7 +12,7 @@ import com.example.app.domain.JobRank;
 public interface JobRankMapper {
 	
 	//アルバイトのランク一覧情報
-	List<JobRank>selectJobRankAll();
+	List<JobRank> selectJobRankAll();
 	
 	//アルバイトのランク個別情報
 	JobRank selectJobRankById(int id);

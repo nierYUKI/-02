@@ -12,12 +12,23 @@
 <input type="text" th:field="*{userName}"></p>
 <p>パスワード:
 <input type="text" th:field="*{password}"></p>
-<p>アルバイトor管理者:
-<input type="number" th:field="*{roleId}"></p>
-<p>ランク:
-<input type="number" th:field="*{rank}"></p>
-<p>時給:
-<input type="number" th:field="*{hourlyRate}"></p>
+<p>アルバイトorシフト作成者or店長:
+<select th:field="*{roleId}">
+<option th:each="jobrole: ${jobRoles}"  th:value="${jobrole.jobRoleId}">
+[[${jobrole.jobRoleName}]]
+</option>
+</select>
+<p>アルバイトのランク:
+<select th:field="*{rank}">
+<option th:each="jobrank : ${jobRanks} " th:value="${jobrank.rankId}">
+[[${jobrank.rankName}]]
+[[${jobrank.rankHourlyRate}]]
+</option>
+</select>
+
+<!-- <p>時給:2024/1/26金曜にJobRankテーブルに時給設定を行っている為、不要。
+<input type="hidden" th:field="*{hourlyRate}" 
+th:each="jobrank : ${jobRanks} " th:value="${jobrank.rankHourlyRate}></p> -->
 
 <input type="submit">
 
