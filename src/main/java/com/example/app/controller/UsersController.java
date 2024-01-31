@@ -3,6 +3,7 @@ package com.example.app.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,6 +13,7 @@ import com.example.app.mapper.JobRankMapper;
 import com.example.app.mapper.JobRoleMapper;
 import com.example.app.mapper.UsersMapper;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -53,4 +55,42 @@ public class UsersController {
 		return "redirect:/user/add";
 
 	}
+	
+	@GetMapping("/login")//ユーザーのログイン
+	public String getlogin(Model model, Users users) {
+		model.addAttribute("users",new Users());
+		return "login";
+	}
+	
+	@PostMapping("/login")//ログイン処理
+  public String postLogin(@ModelAttribute Users users, Model model, HttpSession session) {
+    // ログイン処理
+		
+    Users loggedInUser = Usersmapper.selectByLogin(users.getUserName());
+    System.out.println(loggedInUser);
+    
+    if (loggedInUser != null) {
+      if(users.getPassword().equals(loggedInUser.getPassword())) {
+      	
+      	if(loggedInUser.getRoleId() > 1) {
+      		session.setAttribute("loggedInUser", loggedInUser);
+      		return "adminHome";
+      	}
+      	
+          // 通常ユーザーログイン成功
+          session.setAttribute("loggedInUser", loggedInUser);
+          return "home"; // ログイン成功時
+      } else {
+          // パスワードが一致しない場合の処理
+          model.addAttribute("error", "Invalid username or password");
+          return "redirect:/user/login"; // ログイン失敗時のページにリダイレクト
+      }
+  } else {
+      // ログイン失敗
+      model.addAttribute("error", "Invalid username or password");
+      return "redirect:/user/failure"; // ログイン失敗時のページにリダイレクト
+  }
+	}
 }
+
+	

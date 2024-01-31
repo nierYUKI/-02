@@ -14,5 +14,8 @@ public interface UsersMapper {
 //roleIdにシフト作成者(shift_creatorsテーブル)の情報を
 //同時に挿入する為のメソッド(1/25 11:40)
 	void addShiftCreators(ShiftCreators shiftCreators);
+	
+	//ユーザーのログイン処理を行うメソッド
+	Users selectByLogin(String userName);
 
 }

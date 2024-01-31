@@ -14,5 +14,12 @@ insert into users values(null,#{userName},#{password},#{roleId},#{rank})
         VALUES (null, #{userId}, #{jobRoleId})
    </insert>
 
+<!-- ログインページのフォームのログイン処理 -->
+<select  id="selectByLogin" resultType="Users">
+select * from users where username = #{userId}
+
+
+</select>
+
 
 </mapper>
