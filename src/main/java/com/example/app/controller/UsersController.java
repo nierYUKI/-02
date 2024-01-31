@@ -60,28 +60,4 @@ public class UsersController {
 		return "redirect:/user/add";
 
 	}
-
-	//1/26金曜学校の追加
-	@GetMapping("/login")
-	public String loginGet(Model model) {
-		model.addAttribute("users", new Users());
-		return "login";
-	}
-
-	@PostMapping("/login")
-	public String loginPost(@Validated(LoginGroup.class) Users users,
-			Errors errors,
-			HttpSession session) {
-		if (errors.hasErrors()) {
-			System.out.println("不備あり");
-			System.out.println();
-
-			return "add";
-		}
-		if (!usersService.selectLogin(users.getUserName(), users.getPassword())) {
-			return "login";
-		}
-		return "test";
-
-	}
 }
