@@ -3,7 +3,6 @@ package com.example.app.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,18 +53,4 @@ public class UsersController {
 		return "redirect:/user/add";
 
 	}
-	
-	//1/26金曜学校の追加
-	@GetMapping("/login")
-	public String loginGet(Model model) {
-		model.addAttribute("users",new Users());
-		return "login";
-	}
-	@PostMapping("/login")
-	public String loginPost(@ModelAttribute("loginUsers")Users loginUsers) {
-		
-		if(!loginUsers.getUserName().equals(loginUsers)|| !loginUsers.getPassword().equals(""))
-		return "login";
-	}
-	
 }
