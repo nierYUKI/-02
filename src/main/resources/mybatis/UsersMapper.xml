@@ -13,15 +13,6 @@ insert into users values(null,#{userName},#{password},#{roleId},#{rank})
         INSERT INTO shift_creators (shift_creator_id,user_id,job_role_id) 
         VALUES (null, #{userId}, #{jobRoleId})
    </insert>
-<!-- ログインユーザーの情報検索 -->
-<select  id="selectLogin" resultType="Users">	
-select * from users where username = #{userName} and password= #{password}
 
-</select>
-
-<select  id="selectByLoginId" resultType="Users">	
-select * from users where username = #{userName}
-
-</select>
 
 </mapper>
