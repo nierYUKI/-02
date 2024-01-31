@@ -69,7 +69,8 @@ public class UsersController {
     Users loggedInUser = Usersmapper.selectByLogin(users.getUserName());
     System.out.println(loggedInUser);
     
-    if (loggedInUser != null) {
+    
+    if (loggedInUser != null && users.getPassword().equals(loggedInUser.getPassword())) {
       if(users.getPassword().equals(loggedInUser.getPassword())) {
       	
       	if(loggedInUser.getRoleId() > 1) {
