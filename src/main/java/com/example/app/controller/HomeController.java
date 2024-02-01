@@ -27,7 +27,7 @@ public class HomeController {
 	@GetMapping("/shiftAdd")
 	public String getShiftAdd(Model model,HttpSession session) {
 		session.getAttribute("loggedInUser");
-		System.out.println(session.getAttribute("loggedInUser"));
+		System.out.println(session.getAttribute("loggedInUser")	);
 		return "desiredShift";
 		
 	}
