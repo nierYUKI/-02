@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.app.mapper.JobRankMapper;
 import com.example.app.mapper.JobRoleMapper;
 import com.example.app.mapper.UsersMapper;
-import com.example.app.service.UsersService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class HomeController {
 	private final UsersMapper Usersmapper;
 	private final JobRankMapper jobRankMapper;
 	private final JobRoleMapper jobRoleMapper;
-	private final UsersService usersService;
+
 	
 	
 	@GetMapping("/shiftAdd")
