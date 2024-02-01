@@ -72,7 +72,7 @@ public class UsersController {
     // ログイン処理
 		
     Users loggedInUser = Usersmapper.selectByLogin(users.getUserId());
-    System.out.println(loggedInUser);
+    //確認用System.out.println(loggedInUser);
     
     //ユーザーIDが存在しているか。そのユーザーIDと登録されているパスワードが一致しているかのチェック
     if (loggedInUser != null && loggedInUser.getPassword().equals(users.getPassword())) {
@@ -85,9 +85,9 @@ public class UsersController {
       	
           // 通常ユーザーログイン成功
           session.setAttribute("loggedInUser", loggedInUser);
-          return "home"; // ログイン成功時
+          return "redirect:/home/shiftAdd"; // ログイン成功時
       } else {
-          // パスワードが一致しない場合の処理
+          // パスワードが一致しない場合の処理(ログイン失敗)
           model.addAttribute("error", "Invalid username or password");
           return "redirect:/user/login"; // ログイン失敗時のページにリダイレクト
 
