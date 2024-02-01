@@ -77,7 +77,7 @@ public class UsersController {
     //ユーザーIDが存在しているか。そのユーザーIDと登録されているパスワードが一致しているかのチェック
     if (loggedInUser != null && loggedInUser.getPassword().equals(users.getPassword())) {
 
-      	
+      	//管理ユーザーログイン成功
       	if(loggedInUser.getRoleId() > 1) {
       		session.setAttribute("loggedInUser", loggedInUser);
       		return "adminHome";
@@ -86,6 +86,7 @@ public class UsersController {
           // 通常ユーザーログイン成功
           session.setAttribute("loggedInUser", loggedInUser);
           return "redirect:/home/shiftAdd"; // ログイン成功時
+          		//リダイレクトする際にHomeControllerの「shiftAdd」へ移行可能
       } else {
           // パスワードが一致しない場合の処理(ログイン失敗)
           model.addAttribute("error", "Invalid username or password");

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.app.domain.Users;
 import com.example.app.mapper.JobRankMapper;
 import com.example.app.mapper.JobRoleMapper;
 import com.example.app.mapper.UsersMapper;
@@ -24,8 +25,12 @@ public class HomeController {
 	
 	
 	@GetMapping("/shiftAdd")
-	public String getShiftAdd(Model model,HttpSession session) {
+	public String getShiftAdd(Model model,HttpSession session,Users users) {
 		session.getAttribute("loggedInUser");
+		//モデルでビューにセッション情報を注入していると思う。
+		model.addAttribute(session.getAttribute("loggedInUser"));
+		
+		
 		System.out.println(session.getAttribute("loggedInUser")	);
 		return "desiredShift";
 		
