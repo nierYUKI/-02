@@ -16,6 +16,6 @@ public interface UsersMapper {
 	void addShiftCreators(ShiftCreators shiftCreators);
 	
 	//ユーザーのログイン処理を行うメソッド
-	Users selectByLogin(String userName);
+	Users selectByLogin(Integer userId);
 
 }

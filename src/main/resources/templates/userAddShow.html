@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ユーザー登録画面</title>
+</head>
+<body>
+
+<h1>ユーザー登録画面</h1>
+
+<table border="1">
+
+<tr>
+	<th>ユーザーID:</th>
+	<th>ユーザー名:</th>
+	<th>役職:</th>
+	<th>ランク:</th>
+</tr>
+
+
+<tr  th:object="${users}">
+	<td>[[*{userId}]]</td>
+	<td>[[*{userName}]]</td>
+	<th:block th:each="jobRole : ${jobRoles}">
+	<td th:if="${jobRole.jobRoleId} == *{roleId}" th:text="${jobRole.jobRoleName}">
+	
+	</td>
+	</th:block>
+	<th:block th:each="jobRank: ${jobRanks}">
+	<td th:if="${jobRank.rankId} == *{rank}" th:text="${jobRank.rankName}"></td>
+	</th:block>
+</tr>
+
+
+
+</table>
+</body>
+</html>

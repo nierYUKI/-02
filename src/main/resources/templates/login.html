@@ -8,10 +8,10 @@
 <h1>ログイン</h1>
 
 <form action="" method="post" th:object="${users}">
-<p>名前:
-<input type="text" th:field="*{userName}">
+<p>ユーザーID:
+<input type="text" th:field="*{userId}">
 </p>
-<p>パスワード(メールアドレス):
+<p>パスワード:
 <input type="text" th:field="*{password}">
 </p>
 <input type="submit">

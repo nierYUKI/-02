@@ -40,7 +40,11 @@ public class UsersController {
 	public String postadd(Model model, Users users) {
 		System.out.println(users);
 	  //通常のユーザー情報を挿入
+		System.out.println(jobRoleMapper.selectJobRoleAll());
+		System.out.println(jobRankMapper.selectJobRankAll());
 		Usersmapper.add(users);
+    model.addAttribute("jobRanks",jobRankMapper.selectJobRankAll());
+    model.addAttribute("jobRoles",jobRoleMapper.selectJobRoleAll());
 		//アルバイトかシフト作成者か管理者の以下の条件分岐
 		//RoleIDで判定している
 		if(users.getRoleId() >1) {
@@ -51,8 +55,9 @@ public class UsersController {
 
     // シフト作成者情報を挿入するメソッドを呼び出す
     Usersmapper.addShiftCreators(shiftCreators);	
+
 		}
-		return "redirect:/user/add";
+		return "userAddShow";
 
 	}
 	
@@ -66,12 +71,12 @@ public class UsersController {
   public String postLogin(@ModelAttribute Users users, Model model, HttpSession session) {
     // ログイン処理
 		
-    Users loggedInUser = Usersmapper.selectByLogin(users.getUserName());
+    Users loggedInUser = Usersmapper.selectByLogin(users.getUserId());
     System.out.println(loggedInUser);
     
-    
-    if (loggedInUser != null && users.getPassword().equals(loggedInUser.getPassword())) {
-      if(users.getPassword().equals(loggedInUser.getPassword())) {
+    //ユーザーIDが存在しているか。そのユーザーIDと登録されているパスワードが一致しているかのチェック
+    if (loggedInUser != null && loggedInUser.getPassword().equals(users.getPassword())) {
+
       	
       	if(loggedInUser.getRoleId() > 1) {
       		session.setAttribute("loggedInUser", loggedInUser);
@@ -85,13 +90,14 @@ public class UsersController {
           // パスワードが一致しない場合の処理
           model.addAttribute("error", "Invalid username or password");
           return "redirect:/user/login"; // ログイン失敗時のページにリダイレクト
-      }
-  } else {
+
+/*  } else {
       // ログイン失敗
       model.addAttribute("error", "Invalid username or password");
       return "redirect:/user/failure"; // ログイン失敗時のページにリダイレクト
-  }
+*/  }
 	}
 }
+
 
 	
