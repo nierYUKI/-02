@@ -6,7 +6,26 @@
 </head>
 <body>
 <h1>希望シフト</h1>
-<p><th:block th:if="${session.userName}"></p>
-</th:block>
+
+<!--/* ログイン時のセッション情報を取得している */-->
+<!--/* sessionの中のloggedInUserの中のuserNameを取得*/-->
+
+
+
+<form action="" method="post">
+<p>[[${session.loggedInUser.userName}]]さん
+<input type="hidden"></p>
+<p>希望シフトの曜日
+<input type="date"></p>
+<p>希望シフトの開始時間
+<input type="time"></p>
+<p>希望シフトの終了時間
+<input type="time"></p>
+<p>
+<input type="hidden"></p>
+<p><input type="submit"></p>
+
+
+</form>
 </body>
 </html>

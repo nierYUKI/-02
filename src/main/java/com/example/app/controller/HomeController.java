@@ -27,9 +27,6 @@ public class HomeController {
 	@GetMapping("/shiftAdd")
 	public String getShiftAdd(Model model,HttpSession session,Users users) {
 		session.getAttribute("loggedInUser");
-		//モデルでビューにセッション情報を注入していると思う。
-		model.addAttribute(session.getAttribute("loggedInUser"));
-		
 		
 		System.out.println(session.getAttribute("loggedInUser")	);
 		return "desiredShift";
