@@ -12,17 +12,20 @@
 
 
 
-<form action="" method="post">
+<form action="" method="post" th:object="${shiftPreferences}">
+
 <p>[[${session.loggedInUser.userName}]]さん
-<input type="hidden"></p>
+
 <p>希望シフトの曜日
-<input type="date"></p>
+<input type="month" th:field="*{dayOfWeek}"></p>
 <p>希望シフトの開始時間
-<input type="time"></p>
+<input type="time" th:field="*{startTime}"></p>
+  
 <p>希望シフトの終了時間
-<input type="time"></p>
-<p>
-<input type="hidden"></p>
+<input type="time"th:field="*{endTime}"></p>
+<p>確認しましたか
+<input type="number"th:field="*{isApproved}"></p>
+
 <p><input type="submit"></p>
 
 

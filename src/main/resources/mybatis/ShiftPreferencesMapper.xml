@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.mapper.ShiftPreferencesMapper">
+
+<insert id="ShiftPreferencesAdd" parameterType="ShiftPreferences">
+<!-- ユーザー事の希望シフト挿入処理 -->
+insert into shift_preferences values(null,#{userId},#{dayOfWeek},#{startTime},#{endTime},#{isApproved})
+
+</insert>
+
+
+
+
+</mapper>
