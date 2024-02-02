@@ -17,6 +17,6 @@ public interface ShiftPreferencesMapper {
 	List<ShiftPreferences> selectShiftPreferencesAll();
 	
 	//ユーザー希望シフトの個別管理
-	ShiftPreferences shiftPreferencesById(int id);
+	List<ShiftPreferences> shiftPreferencesById(int id);
 
 }

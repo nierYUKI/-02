@@ -8,6 +8,11 @@ insert into shift_preferences values(null,#{userId},#{dayOfWeek},#{startTime},#{
 
 </insert>
 
+<select  id="shiftPreferencesById">
+
+
+</select>
+
 
 
 

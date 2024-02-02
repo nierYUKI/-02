@@ -34,7 +34,7 @@ public class HomeController {
 	public String getShiftAdd(Model model,HttpSession session,Users users) {
 		session.getAttribute("loggedInUser");
 		model.addAttribute("shiftPreferences",new ShiftPreferences());
-//		System.out.println(session.getAttribute("loggedInUser")	);
+
 		return "desiredShift";
 		
 	}
@@ -54,6 +54,6 @@ public class HomeController {
 		
 		return "desiredShift";
 	}
-	
+	//ログインしたユーザー情報からシフト一覧を表示
 	
 }
