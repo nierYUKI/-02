@@ -52,8 +52,17 @@ public class HomeController {
 		shiftPreferencesMapper.ShiftPreferencesAdd(shiftPreferences);
 		System.out.println("LocalTime->"+startTime);
 		
-		return "desiredShift";
+		return "home";
 	}
 	//ログインしたユーザー情報からシフト一覧を表示
-	
+	@GetMapping("/userHome")
+	public String getDesiredShiftList(Model model, HttpSession session) {
+		session.getAttribute("loggedInUser");
+		model.addAttribute("List<ShiftPreferences>", shiftPreferencesMapper.shiftPreferencesById(0));
+		
+		return "home";
+		
+		
+		
+	}
 }

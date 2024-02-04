@@ -3,13 +3,14 @@
 <mapper namespace="com.example.app.mapper.ShiftPreferencesMapper">
 
 <insert id="ShiftPreferencesAdd" parameterType="ShiftPreferences">
-<!-- ユーザー事の希望シフト挿入処理 -->
+<!-- ユーザー毎の希望シフト挿入処理 -->
 insert into shift_preferences values(null,#{userId},#{dayOfWeek},#{startTime},#{endTime},#{isApproved})
 
 </insert>
 
-<select  id="shiftPreferencesById">
-
+<select  id="shiftPreferencesById" resultType="ShiftPreferences">
+<!-- ユーザー毎の希望シフト一覧 -->
+select day_of_week,start_time,end_time,is_approved from shift_preferences join users on shift_preferences.user_id = users.user_id where users.user_id = #{userId}
 
 </select>
 

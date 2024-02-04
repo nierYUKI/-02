@@ -5,7 +5,23 @@
 <title>ホーム</title>
 </head>
 <body>
-<h1>ホーム</h1>
-<p><th:block th:text="${session.userId}"></p>
+<h1>[[${session.loggedInUser.userName}]]さんの希望シフト一覧</h1>
+
+<table border="1">
+	
+	<tr>
+		<th>希望シフト:</th>
+		<th>開始時間:</th>
+		<th>終了時間:</th>
+		<th>確認:</th>
+	</tr>
+	<tr th:each="List<ShiftPreferences>" th:object=${shiftPreferences}>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	
+</table>
 </body>
 </html>
