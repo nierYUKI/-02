@@ -80,7 +80,7 @@ public class UsersController {
       	//管理ユーザーログイン成功
       	if(loggedInUser.getRoleId() > 1) {
       		session.setAttribute("loggedInUser", loggedInUser);
-      		return "adminHome";
+      		return "redirect:/admin/adminHome";
       	}
       	
           // 通常ユーザーログイン成功

@@ -1,5 +1,6 @@
 package com.example.app.mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,5 +19,7 @@ public interface ShiftPreferencesMapper {
 	
 	//ユーザー希望シフトの個別管理
 	List<ShiftPreferences> shiftPreferencesById(int id);
+	
+	List<ShiftPreferences> selectShiftByDate(LocalDate selectDate);
 
 }
