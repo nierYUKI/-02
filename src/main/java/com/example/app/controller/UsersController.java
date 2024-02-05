@@ -85,7 +85,7 @@ public class UsersController {
       	
           // 通常ユーザーログイン成功
           session.setAttribute("loggedInUser", loggedInUser);
-          return "redirect:/home/shiftAdd"; // ログイン成功時
+          return "redirect:/home/userHome"; // ログイン成功時
           		//リダイレクトする際にHomeControllerの「shiftAdd」へ移行可能
       } else {
           // パスワードが一致しない場合の処理(ログイン失敗)

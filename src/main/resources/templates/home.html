@@ -15,10 +15,10 @@
 		<th>終了時間:</th>
 		<th>確認:</th>
 	</tr>
-	<tr th:each="List<ShiftPreferences>" th:object=${shiftPreferences}>
-		<td></td>
-		<td></td>
-		<td></td>
+	<tr th:each="shiftPreference : ${ShiftPreferences}" th:object=${shiftPreference}>
+    <td th:text="*{dayOfWeek}"></td>
+    <td th:text="*{startTime}"></td>
+    <td th:text="*{endTime}"></td>
 		<td></td>
 	</tr>
 	

@@ -5,7 +5,8 @@
 <title>希望シフト一覧</title>
 </head>
 <body>
-<h1>希望シフト一覧</h1>
+<h1>[[${session.loggedInUser.userName}]]さんの希望シフト一覧</h1>
+<a th:href="@{/home/shiftAdd}">希望シフト登録</a>
 <table border="1">
 <tr>
 	<th>希望シフト日:</th>
@@ -14,11 +15,11 @@
 	<th>希望シフト承認</th>
 </tr>
 
-<tr>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
+	<tr th:each="shiftPreference : ${ShiftPreferences}" th:object=${shiftPreference}>
+	<td th:text="*{dayOfWeek}"></td>
+	<td th:text="*{startTime}"></td>
+	<td th:text="*{endTime}"></td>
+	<td th:text="*{isApproved}"></td>
 </tr>
 
 </table>

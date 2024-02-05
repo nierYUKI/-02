@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,21 +49,21 @@ public class HomeController {
 			) {
 		Users users = (Users) session.getAttribute("loggedInUser");
 		shiftPreferences.setUserId(users.getUserId());
-		System.out.println("shiftPreferences->"+shiftPreferences);
 		shiftPreferencesMapper.ShiftPreferencesAdd(shiftPreferences);
-		System.out.println("LocalTime->"+startTime);
 		
-		return "home";
+		return "redirect:/home/userHome";
+		//redirectする事でURLを移動する
 	}
 	//ログインしたユーザー情報からシフト一覧を表示
 	@GetMapping("/userHome")
-	public String getDesiredShiftList(Model model, HttpSession session) {
-		session.getAttribute("loggedInUser");
-		model.addAttribute("List<ShiftPreferences>", shiftPreferencesMapper.shiftPreferencesById(0));
+	public String getDesiredShiftList(Model model, HttpSession session,ShiftPreferences shiftPreferences) {
+		Users users = (Users) session.getAttribute("loggedInUser");
+		List<ShiftPreferences> ShiftPreferencesList = shiftPreferencesMapper.shiftPreferencesById(users.getUserId());
+		System.out.println("ShiftPreferencesList->"+ShiftPreferencesList);
 		
-		return "home";
-		
-		
+		model.addAttribute("ShiftPreferences", ShiftPreferencesList);
+	//	htmlのth:eachの" :${この部分の名前}"
+		return "ShiftPreferencesList";
 		
 	}
 }
