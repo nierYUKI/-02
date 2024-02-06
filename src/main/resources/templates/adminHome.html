@@ -3,15 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>シフト作成者</title>
+
+
+<script th:src="@{/js/jquery-3.7.0.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
+<link rel="stylesheet" href="/css/calendar.css">
 </head>
 <body>
 <h1>アルバイト希望シフト一覧</h1>
 
-<form action=""method="post">
-<input type="date">
-<input type="submit">
 
+        <div class="wrapper">
+            <!--yyyy年mm月を表示-->
+            <h1 id="header"></h1>
+            <!--ボタンクリックで移動-->
+            <div id="next-prev-button">
+                <button id="prev" onclick="prev()"><</button>
+                <button id="next" onclick="next()">></button>
+            </div>
+            <!--カレンダー-->
+            <div id="calendar"> </div>
+        </div>
+
+
+
+
+
+
+<form action=""method="post">
+<input type="date" name="selectDate" value="">
+<input type="submit">
 </form>
 
+<table border="1">
+
+<tr>
+	<th  class='tdclass'>希望シフト日</th>
+	<th class='tdclass'>希望シフト開始時間</th>
+	<th class='tdclass'>希望シフト終了時間</th>
+	<th class='tdclass'>アルバイトの名前</th>
+	<th class='tdclass'>Rank</th>
+	<th class='tdclass'>希望シフト承認</th>
+</tr>
+
+<tr th:each="shiftPreference : ${ShiftPreferences}" th:object=${shiftPreference}>
+	<td th:text="*{dayOfWeek}"></td>
+	<td th:text="*{startTime}"></td>
+	<td th:text="*{endTime}"></td>
+	<td th:text="*{username}"></td>
+	<td th:text="*{rankName}"></td>
+	<td th:text="*{isApproved}"></td>
+	
+	<td></td>
+</tr>
+
+
+</table>
+    
+
+
+    
 </body>
 </html>
