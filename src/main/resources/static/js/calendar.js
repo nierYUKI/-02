@@ -74,7 +74,22 @@ function createProcess(year, month) {
 
 //ここでクリックしたボタンの要素を取得したい
 $(function(){
-    $('.button-num', this).on('click', function(){
-            console.log(this.textContent);
-   })
-   })
+    $('.button-num').on('click', function(){
+        var selectedDate = this.textContent; // クリックされたボタンのテキストを取得
+
+        // 日付のフォーマットを変換（例：2024-02-24）
+        var formattedDate = formatDate(selectedDate);
+
+        console.log(formattedDate);
+
+        // フォームの値を変更
+        $('input[name="selectDate"]').val(formattedDate);
+    });
+
+// 日付のフォーマットを変換する関数
+function formatDate(dateString) {
+    var parts = dateString.split("/");
+    var formattedDate = parts[2] + "-" + ('0' + parts[0]).slice(-2) + "-" + ('0' + parts[1]).slice(-2);
+    return formattedDate;
+}
+});
