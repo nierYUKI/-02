@@ -39,8 +39,9 @@ public class AdminController {
 	
 	@PostMapping("/adminHome")//アルバイトの希望シフト一覧
 	public String postAdminShiftList(Model model,ShiftPreferences shiftPreferences,
-			@RequestParam LocalDate selectDate
+			@RequestParam  LocalDate selectDate
 			) {
+		System.out.println(selectDate);
 		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
 		System.out.println(UsersShiftPreferencesList);
 		model.addAttribute("ShiftPreferences",UsersShiftPreferencesList);
