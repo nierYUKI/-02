@@ -1,12 +1,21 @@
+// グローバル変数として年と月を定義
+var selectedYear;
+var selectedMonth;
+
 const week = ["日", "月", "火", "水", "木", "金", "土"];
 const today = new Date();
+var year;
+var month;
+console.log(year);
+console.log(month);
 // 月末だとずれる可能性があるため、1日固定で取得
 var showDate = new Date(today.getFullYear(), today.getMonth(), 1);
 
 // 初期表示
 window.onload = function () {
-   showProcess(today, calendar);
+    showProcess(today);
 };
+
 // 前の月を表示
 function prev(){
     showDate.setMonth(showDate.getMonth() - 1);
@@ -21,11 +30,29 @@ function next(){
 
 // カレンダー表示
 function showProcess(date) {
-    var year = date.getFullYear();
-    var month = date.getMonth();
+    year = date.getFullYear();
+    month = date.getMonth();
+    selectedYear = year; // グローバル変数に年を設定
+    selectedMonth = month; // グローバル変数に月を設定
+    console.log(year);
+    console.log(month);
     document.querySelector('#header').innerHTML = year + "年 " + (month + 1) + "月";
     var calendar = createProcess(year, month);
     document.querySelector('#calendar').innerHTML = calendar;
+
+    // 日付ボタンのクリックイベントを設定
+    $('.button-num').off('click').on('click', function(){
+        var selectedDate = this.textContent; // クリックされたボタンのテキストを取得
+
+        // 日付のフォーマットを変換（例：2024-02-24）
+        var formattedDate = formatDate(selectedDate);
+
+        // フォームの値を変更
+        $('input[name="selectDate"]').val(formattedDate);
+
+        // フォームを送信
+        $('form').submit(); // 修正箇所: フォームを送信するためにフォームのセレクタを正しく指定します
+    });
 }
 
 // カレンダー作成
@@ -58,10 +85,8 @@ function createProcess(year, month) {
             } else {
                 // 当月の日付を曜日に照らし合わせて設定
                 count++;
-                if(year == today.getFullYear()
-                  && month == (today.getMonth())
-                  && count == today.getDate()){
-                    calendar += "<td class='today'><button class=button-num>" + count + "</button></td>";
+                if(year == today.getFullYear() && month == today.getMonth() && count == today.getDate()){
+                    calendar += "<td class='today'><button class='button-num'>" + count + "</button></td>";
                 } else {
                     calendar += "<td><button class='button-num'>" + count + "</button></td>";
                 }
@@ -72,24 +97,11 @@ function createProcess(year, month) {
     return calendar;
 }
 
-//ここでクリックしたボタンの要素を取得したい
-$(function(){
-    $('.button-num').on('click', function(){
-        var selectedDate = this.textContent; // クリックされたボタンのテキストを取得
-
-        // 日付のフォーマットを変換（例：2024-02-24）
-        var formattedDate = formatDate(selectedDate);
-
-        console.log(formattedDate);
-
-        // フォームの値を変更
-        $('input[name="selectDate"]').val(formattedDate);
-    });
-
 // 日付のフォーマットを変換する関数
-function formatDate(dateString) {
-    var parts = dateString.split("/");
-    var formattedDate = parts[2] + "-" + ('0' + parts[0]).slice(-2) + "-" + ('0' + parts[1]).slice(-2);
+function formatDate(selectedDate) {
+    var year = selectedYear; // グローバル変数から年を取得
+    var month = ('0' + (selectedMonth + 1)).slice(-2); // グローバル変数から月を取得し、ゼロパディング
+    var day = ('0' + selectedDate).slice(-2); // 日のゼロパディング
+    var formattedDate = year + "-" + month + "-" + day; // フォーマット変換
     return formattedDate;
-}
-});
+};

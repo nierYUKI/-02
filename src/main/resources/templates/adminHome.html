@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>シフト作成者</title>
 
-
 <script th:src="@{/js/jquery-3.7.0.js}"></script>
 <script th:src="@{/js/calendar.js}"></script>
 <link rel="stylesheet" href="/css/calendar.css">
@@ -26,9 +25,8 @@
         </div>
 
 
-<form action=""method="post">
-<input type="date" name="selectDate" value="">
-<input type="submit">
+<form id="dateForm" action="" method="post">
+    <input type="hidden" name="selectDate" id="selectedDate" value="">
 </form>
 
 <table border="1">
