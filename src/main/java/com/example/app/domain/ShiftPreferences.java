@@ -24,6 +24,7 @@ public class ShiftPreferences {
 	//2月6日管理者のページにアルバイトの名前を表示する為に追記
 	//ワークベンチではユーザーの名前を取得しているけど、JavaのDomain(箱)に
 	//その記述が必要
-	private String username;
-	private String rankName;
+	private String username;//アルバイトの名前
+	private String rankName;//アルバイトのランク名
+	private Integer rankId;//ランクID
 }

@@ -10,6 +10,7 @@ public class Users {
 	private String password;//パスワード
 	private Integer roleId;//アルバイトか管理者を判断するID
 	private Integer rank;//アルバイトのランクを識別するID
+	
 //	private Integer hourlyRate;//ランク事の時給
 	//1月26日金曜→アルバイトのランク(JobRankテーブル)に時給を設定しているので、不要となった
 	
