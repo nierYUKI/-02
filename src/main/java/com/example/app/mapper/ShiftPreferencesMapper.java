@@ -23,6 +23,7 @@ public interface ShiftPreferencesMapper {
 	//日付毎の希望シフトの取得
 	List<ShiftPreferences> selectShiftByDate(LocalDate selectDate);
 
+	//希望シフトの更新処理？
 	void updateShiftPreference(ShiftPreferences shift);
 
 }
