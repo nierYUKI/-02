@@ -40,8 +40,9 @@ public class ShiftServiceImpl implements ShiftService {
         // Step 3: 各時間帯ごとに処理を行う
         shiftByTimeAndRank.forEach((startTime, rankCountMap) -> {
         	for(Map.Entry<Integer, Long> entry: rankCountMap.entrySet()) {
-        		System.out.println("entry.getKey()->"+entry.getKey());
-        		System.out.println("entry.getValue()->"+entry.getValue());
+        		
+        		System.out.println("entry.getKey()->"+entry.getKey());//ここがランクIDの値
+        		System.out.println("entry.getValue()->"+entry.getValue());//ランクIDの値の人数
         	}
 //            // アイアンランクのアルバイトが2人以上同じグループ内にいる場合、1人を別の時間帯に移動させる
 //            if (rankCountMap.containsKey(shiftPreferencesList.get(0).getRankId()) && rankCountMap.get(shiftPreferencesList.get(0).getRankId()) > 1) {
