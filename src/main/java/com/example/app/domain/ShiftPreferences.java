@@ -12,12 +12,12 @@ import lombok.Data;
 public class ShiftPreferences {
 	private Integer preferenceId;//主キー
 	private Integer userId;//外部キー、ユーザーテーブルと関連付け
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dayOfWeek;//希望シフトの曜日
-	@DateTimeFormat(pattern="HH:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime startTime;//希望シフトの開始時間
-	@DateTimeFormat(pattern="HH:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime endTime;//希望シフトの終了時間
 	private Integer isApproved;//希望シフトが承認されたかのフラグ
 
@@ -27,4 +27,6 @@ public class ShiftPreferences {
 	private String username;//アルバイトの名前
 	private String rankName;//アルバイトのランク名
 	private Integer rankId;//ランクID
+
+
 }
