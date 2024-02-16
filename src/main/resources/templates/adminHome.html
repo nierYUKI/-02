@@ -26,9 +26,13 @@
 
 
 <form id="dateForm" action="" method="post">
-    <input type="hidden" name="selectDate" id="selectedDate" value="">
+    <input type="hidden" name="selectDate" class="selectedDate" value="">
 </form>
 
+<form action="addShift">
+	<input type="hidden" name="selectDate" class="selectedDate" th:value="${selectDate}">
+	<input type="submit" value="シフト確定">
+</form>
 <table border="1">
 
 <tr>

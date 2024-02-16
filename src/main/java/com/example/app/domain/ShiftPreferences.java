@@ -27,6 +27,13 @@ public class ShiftPreferences {
 	private String username;//アルバイトの名前
 	private String rankName;//アルバイトのランク名
 	private Integer rankId;//ランクID
-
+	
+	//2/16で追記
+	@DateTimeFormat(pattern="HH:mm")
+	private LocalDate startDateTime;//シフトの開始時間
+	@DateTimeFormat(pattern="HH:mm")
+	private LocalDate endDateTime;//シフトの終了時間
+	private Integer shiftType;//早番、遅番、夜勤などのタイプ分け
+	private Integer breakDuration;//シフトの休憩時間
 
 }

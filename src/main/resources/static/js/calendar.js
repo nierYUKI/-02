@@ -51,7 +51,7 @@ function showProcess(date) {
         $('input[name="selectDate"]').val(formattedDate);
 
         // フォームを送信
-        $('form').submit(); // 修正箇所: フォームを送信するためにフォームのセレクタを正しく指定します
+        $('#dateForm').submit(); // 修正箇所: フォームを送信するためにフォームのセレクタを正しく指定します
     });
 }
 

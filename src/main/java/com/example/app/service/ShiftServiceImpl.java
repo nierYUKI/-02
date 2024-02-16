@@ -72,7 +72,7 @@ public class ShiftServiceImpl implements ShiftService {
   					if (youngestIronShift != null) {
   						shiftList.add(youngestIronShift);
   						
-  					// 1. 加工したデータのリスト（shiftList）を元のデータに組み込む
+  					// 8. 加工したデータのリスト（shiftList）を元のデータに組み込む
   						for (ShiftPreferences ironShift : shiftList) {
   						    // もし元のデータに加工したデータのpreferenceIdと同じものがなければ、追加する
   						    if (!UsersShiftPreferencesList.contains(ironShift)) {
@@ -80,7 +80,7 @@ public class ShiftServiceImpl implements ShiftService {
   						    }
   						}
 
-  						// 2. 元のデータから、加工したデータの要素と同じ条件を満たす要素を削除する
+  						// 9. 元のデータから、加工したデータの要素と同じ条件を満たす要素を削除する
   						UsersShiftPreferencesList.removeIf(shift -> shiftList.contains(shift));
 
   					}
@@ -88,11 +88,11 @@ public class ShiftServiceImpl implements ShiftService {
   			}
   		});
 
-    // Step 4: 処理後のリストを返す
+    // 10. 処理後のリストを返す
 //    return UsersShiftPreferencesList;
   		for(ShiftPreferences shiftPreferences : UsersShiftPreferencesList) {
   			System.out.println(shiftPreferences);
-  			//shiftMapper.ShiftsAdd(shiftPreferences);
+  			shiftMapper.ShiftsAdd(shiftPreferences);
   		}
 }
 

@@ -1,7 +1,12 @@
 package com.example.app.controller;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.app.domain.ShiftPreferences;
+import com.example.app.domain.Shifts;
 import com.example.app.domain.Users;
 import com.example.app.mapper.JobRankMapper;
 import com.example.app.mapper.JobRoleMapper;
@@ -40,12 +46,14 @@ public class AdminController {
 	}
 
 	@PostMapping("/adminHome") //アルバイトの希望シフト一覧
-	public String postAdminShiftList(Model model, ShiftPreferences shiftPreferences,
+	public String postAdminShiftList(Model model, 
+			ShiftPreferences shiftPreferences,
+			HttpSession session,
 			@RequestParam LocalDate selectDate) {
-
+		model.addAttribute("selectDate", selectDate);
 		// 1. 指定された日付でデータベースからシフトの希望リストを取得
 		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
-		/*		System.out.println(UsersShiftPreferencesList);
+				System.out.println(UsersShiftPreferencesList);
 		
 				// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
 				List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
@@ -95,20 +103,24 @@ public class AdminController {
 							}
 						}
 					}
-				});*/
+				});
 
 		// 8. 最終的に選択されたアイアンシフトのリストをコンソールに出力
-		System.out.println("う" + UsersShiftPreferencesList);
+				System.out.println("う" + UsersShiftPreferencesList);
 
 		// 9. モデルに希望シフトリストを追加して、ビューに渡す
 		model.addAttribute("ShiftPreferences", UsersShiftPreferencesList);
+		//session.setAttribute("UsersShiftPreferencesList", UsersShiftPreferencesList);
 
 		// 10. adminHomeページに戻る
+		//今悩んでいる所
+		//return "redirect:/admin/addShift?selectDate=" + selectDate;
 		return "adminHome";
 	}
 
 	@GetMapping("/addShift")
-	public String addShift(Model model, @RequestParam LocalDate selectDate) {
+	public String addShift(Model model,HttpSession session, @RequestParam LocalDate selectDate,Shifts shifts) {
+		//session.getAttribute("UsersShiftPreferencesList");
 
 		shiftService.getShiftByDate(selectDate);
 		return "Shift";

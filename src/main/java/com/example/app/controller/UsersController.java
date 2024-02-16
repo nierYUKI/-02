@@ -92,11 +92,8 @@ public class UsersController {
           model.addAttribute("error", "Invalid username or password");
           return "redirect:/user/login"; // ログイン失敗時のページにリダイレクト
 
-/*  } else {
-      // ログイン失敗
-      model.addAttribute("error", "Invalid username or password");
-      return "redirect:/user/failure"; // ログイン失敗時のページにリダイレクト
-*/  }
+
+      }
 	}
 }
 

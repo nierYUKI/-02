@@ -2,9 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.app.mapper.ShiftMapper">
 
-<insert id="ShiftsAdd" parameterType="Shifts">
+<insert id="ShiftsAdd" parameterType="ShiftPreferences">
 <!-- 指定日の希望シフト一覧から確定シフト挿入処理 -->
-insert into shifts values(null,#{userId},#{startDateTime},#{endDateTime},#{isApproved},#{shiftType},#{breakDuration},#{dayOfWeek})
+insert into 
+shifts(user_id, start_datetime, end_datetime, is_approved, shift_type, break_duration, day_of_week) 
+values(#{userId},#{startTime},#{endTime},#{isApproved},#{shiftType},#{breakDuration},#{dayOfWeek})
 
 </insert>
 
