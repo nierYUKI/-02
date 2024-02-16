@@ -1,12 +1,7 @@
 package com.example.app.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +48,7 @@ public class AdminController {
 		model.addAttribute("selectDate", selectDate);
 		// 1. 指定された日付でデータベースからシフトの希望リストを取得
 		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
-				System.out.println(UsersShiftPreferencesList);
+		/*		System.out.println(UsersShiftPreferencesList);
 		
 				// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
 				List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
@@ -103,7 +98,7 @@ public class AdminController {
 							}
 						}
 					}
-				});
+				});*/
 
 		// 8. 最終的に選択されたアイアンシフトのリストをコンソールに出力
 				System.out.println("う" + UsersShiftPreferencesList);
