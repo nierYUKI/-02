@@ -31,43 +31,69 @@ public class ShiftServiceImpl implements ShiftService {
         this.shiftMapper = shiftMapper;
     }
 
+    //List<ShiftPreferences>
     @Override
-    public List<ShiftPreferences> getShiftByDate(LocalDate selectDate) {
-        // Step 1: 日付毎の希望シフトを取得する
-        List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
-        List<ShiftPreferences> shiftList = new ArrayList<>();
-        // Step 2: 各時間帯ごとに希望シフトをグループ化し、各グループ内で各ランクのアルバイト数を数える
-        Map<LocalTime, Map<Integer, Long>> shiftByTimeAndRank = shiftPreferencesList.stream()
-                .collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 時間帯ごとにグループ化
-                         Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()))); // 各ランクのアルバイト数を数える
-        
-        // Step 3: 各時間帯ごとに処理を行う
-        shiftByTimeAndRank.forEach((startTime, rankCountMap) -> {
-        	for(Map.Entry<Integer, Long> entry: rankCountMap.entrySet()) {
-        		
-        		System.out.println("entry.getKey()->"+entry.getKey());//ここがランクIDの値
-        		System.out.println("entry.getValue()->"+entry.getValue());//ランクIDの値の人数
-            //アルバイトランク「アイアン」が同じ時間帯にいるかどうか確認
-            List<ShiftPreferences> ironShifts = shiftPreferencesList.stream()
-                    .filter(shift -> shift.getStartTime().equals(startTime) && shift.getRankId() == shiftPreferencesList.get(0).getRankId())
-                    .collect(Collectors.toList());
-            //ランクアイアンが同じ時間帯にいた場合
-            //PreferenceIdの若い方が確定シフトに登録される記述
-            if (ironShifts.size() > 1) {
-                ShiftPreferences youngestIronShift = ironShifts.stream()
-                        .min(Comparator.comparing(ShiftPreferences::getPreferenceId))
-                        .orElse(null);
+    public void getShiftByDate(LocalDate selectDate) {
+  		// 1. 指定された日付でデータベースからシフトの希望リストを取得
+  		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
+  		/*System.out.println(UsersShiftPreferencesList);*/
 
-                if (youngestIronShift != null) {
-								/*shiftMapper.ShiftsAdd(youngestIronShift);*/
-                	shiftList.add(youngestIronShift);
-                }
-            }
-        }
-    });
+  		// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
+  		List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
+
+  		// 3. アイアンシフトの最適なリストを格納するリスト
+  		List<ShiftPreferences> shiftList = new ArrayList<>();
+
+  		//				System.out.println(shiftPreferencesByStartTime);
+
+  		// 4. 各時間帯ごとに希望シフトをグループ化し、各グループ内で各ランクのアルバイト数を数える
+  		Map<LocalTime, Map<Integer, Long>> shiftByTimeAndRank = shiftPreferencesList.stream()
+  				.collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 時間帯ごとにグループ化
+  						Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()))); // 各ランクのアルバイト数を数える
+
+  		// 5. 各時間帯ごとに処理を行う
+  		shiftByTimeAndRank.forEach((startTime, rankCountMap) -> {
+  			for (Map.Entry<Integer, Long> entry : rankCountMap.entrySet()) {
+  				// 6. アイアンシフトのみを抽出して重複を除外し、最も若いpreferenceIdを持つものを選択
+  				if (entry.getKey() == 1 && entry.getValue() > 1) {
+  					List<ShiftPreferences> ironShifts = shiftPreferencesList.stream()
+  							.filter(shift -> shift.getStartTime().equals(startTime) && shift.getRankId() == 1)
+  							.distinct() // 重複を除外
+  							.collect(Collectors.toList());
+
+  				// ironShiftsリストから、ShiftPreferencesオブジェクトのpreferenceIdを比較するためのComparatorを使用して、最小の要素を取得します。
+  					ShiftPreferences youngestIronShift = ironShifts.stream()
+  							.min(Comparator.comparing(ShiftPreferences::getPreferenceId))
+  						
+  							// orElse(null)は、リストが空の場合にデフォルト値としてnullを返します。
+  							.orElse(null);
+  					
+  					// 7. 最も若いpreferenceIdを持つアイアンシフトを選択し、リストに追加
+  					if (youngestIronShift != null) {
+  						shiftList.add(youngestIronShift);
+  						
+  					// 1. 加工したデータのリスト（shiftList）を元のデータに組み込む
+  						for (ShiftPreferences ironShift : shiftList) {
+  						    // もし元のデータに加工したデータのpreferenceIdと同じものがなければ、追加する
+  						    if (!UsersShiftPreferencesList.contains(ironShift)) {
+  						        UsersShiftPreferencesList.add(ironShift);
+  						    }
+  						}
+
+  						// 2. 元のデータから、加工したデータの要素と同じ条件を満たす要素を削除する
+  						UsersShiftPreferencesList.removeIf(shift -> shiftList.contains(shift));
+
+  					}
+  				}
+  			}
+  		});
 
     // Step 4: 処理後のリストを返す
-    return shiftList;
+//    return UsersShiftPreferencesList;
+  		for(ShiftPreferences shiftPreferences : UsersShiftPreferencesList) {
+  			System.out.println(shiftPreferences);
+  			//shiftMapper.ShiftsAdd(shiftPreferences);
+  		}
 }
 
 /*    // 必要に応じてアルバイトを移動させるメソッド

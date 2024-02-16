@@ -1,12 +1,7 @@
 package com.example.app.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,55 +43,74 @@ public class AdminController {
 	public String postAdminShiftList(Model model, ShiftPreferences shiftPreferences,
 			@RequestParam LocalDate selectDate) {
 
+		// 1. 指定された日付でデータベースからシフトの希望リストを取得
 		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
-		/*System.out.println(UsersShiftPreferencesList);*/
-		List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
-    List<ShiftPreferences> shiftList = new ArrayList<>();
-
-//				System.out.println(shiftPreferencesByStartTime);
+		/*		System.out.println(UsersShiftPreferencesList);
 		
-		// Step 2: 各時間帯ごとに希望シフトをグループ化し、各グループ内で各ランクのアルバイト数を数える
-		Map<LocalTime, Map<Integer, Long>> shiftByTimeAndRank = shiftPreferencesList.stream()
-		        .collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 時間帯ごとにグループ化
-		                 Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()))); // 各ランクのアルバイト数を数える
-		/*		System.out.println(shiftByTimeAndRank);*/
-    // Step 3: 各時間帯ごとに処理を行う
-		shiftByTimeAndRank.forEach((startTime, rankCountMap) -> {
-//			System.out.println("startTime->"+startTime);
-//			for(Map.Entry<Integer, Long> entry: rankCountMap.entrySet()) {
-//								System.out.println("entry.getKey()->"+entry.getKey());
-//								System.out.println("entry.getValue()->"+entry.getValue());
-//			
-		    // ここで adjustShiftsInGroup メソッドを呼び出す
-		    List<ShiftPreferences> ironShifts = shiftPreferencesList.stream()
-		            .filter(shift -> shift.getStartTime().equals(startTime)&& shift.getRankId() == shiftPreferencesList.get(0).getRankId())
-		            .distinct() // 重複を除外
-		            .collect(Collectors.toList());
-				System.out.println("あ"+ironShifts);
-		    if (ironShifts.size() > 1) {
-		        ShiftPreferences youngestIronShift = ironShifts.stream()
-		                .min(Comparator.comparing(ShiftPreferences::getPreferenceId))
-		                .orElse(null);
-//		        System.out.println("い"+youngestIronShift);
-					            if (youngestIronShift != null) {
-						/*					      shiftPreferencesMapper.updateShiftPreference(youngestIronShift);*/
-			                	shiftList.add(youngestIronShift);
-
+				// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
+				List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
 		
-					  }
-					/*  		System.out.println("う"+shiftList);*/
-		    //}
-		    }});
+				// 3. アイアンシフトの最適なリストを格納するリスト
+				List<ShiftPreferences> shiftList = new ArrayList<>();
+		
+				//				System.out.println(shiftPreferencesByStartTime);
+		
+				// 4. 各時間帯ごとに希望シフトをグループ化し、各グループ内で各ランクのアルバイト数を数える
+				Map<LocalTime, Map<Integer, Long>> shiftByTimeAndRank = shiftPreferencesList.stream()
+						.collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 時間帯ごとにグループ化
+								Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()))); // 各ランクのアルバイト数を数える
+		
+				// 5. 各時間帯ごとに処理を行う
+				shiftByTimeAndRank.forEach((startTime, rankCountMap) -> {
+					for (Map.Entry<Integer, Long> entry : rankCountMap.entrySet()) {
+						// 6. アイアンシフトのみを抽出して重複を除外し、最も若いpreferenceIdを持つものを選択
+						if (entry.getKey() == 1 && entry.getValue() > 1) {
+							List<ShiftPreferences> ironShifts = shiftPreferencesList.stream()
+									.filter(shift -> shift.getStartTime().equals(startTime) && shift.getRankId() == 1)
+									.distinct() // 重複を除外
+									.collect(Collectors.toList());
+		
+						// ironShiftsリストから、ShiftPreferencesオブジェクトのpreferenceIdを比較するためのComparatorを使用して、最小の要素を取得します。
+							ShiftPreferences youngestIronShift = ironShifts.stream()
+									.min(Comparator.comparing(ShiftPreferences::getPreferenceId))
+								
+									// orElse(null)は、リストが空の場合にデフォルト値としてnullを返します。
+									.orElse(null);
+							
+							// 7. 最も若いpreferenceIdを持つアイアンシフトを選択し、リストに追加
+							if (youngestIronShift != null) {
+								shiftList.add(youngestIronShift);
+								
+							// 1. 加工したデータのリスト（shiftList）を元のデータに組み込む
+								for (ShiftPreferences ironShift : shiftList) {
+								    // もし元のデータに加工したデータのpreferenceIdと同じものがなければ、追加する
+								    if (!UsersShiftPreferencesList.contains(ironShift)) {
+								        UsersShiftPreferencesList.add(ironShift);
+								    }
+								}
+		
+								// 2. 元のデータから、加工したデータの要素と同じ条件を満たす要素を削除する
+								UsersShiftPreferencesList.removeIf(shift -> shiftList.contains(shift));
+		
+							}
+						}
+					}
+				});*/
 
+		// 8. 最終的に選択されたアイアンシフトのリストをコンソールに出力
+		System.out.println("う" + UsersShiftPreferencesList);
 
+		// 9. モデルに希望シフトリストを追加して、ビューに渡す
 		model.addAttribute("ShiftPreferences", UsersShiftPreferencesList);
+
+		// 10. adminHomeページに戻る
 		return "adminHome";
 	}
 
-@GetMapping("/addShift")
-public String addShift(Model model,	@RequestParam  LocalDate selectDate
-		) {
-	shiftService.getShiftByDate(selectDate);
-	return "Shift";
-}
+	@GetMapping("/addShift")
+	public String addShift(Model model, @RequestParam LocalDate selectDate) {
+
+		shiftService.getShiftByDate(selectDate);
+		return "Shift";
+	}
 }
