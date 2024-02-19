@@ -12,6 +12,7 @@ values(#{userId},#{startTime},#{endTime},#{isApproved},#{shiftType},#{breakDurat
 
 <select  id="selectShiftAll" resultType="Shifts">
 <!-- カレンダー日付ごとの確定シフト一覧 -->
+select day_of_week,shifts.user_id,start_datetime,end_datetime,is_approved,username AS user_name,rank_id,rank_name from shifts join users on shifts.user_id = users.user_id join job_rank on job_rank.rank_id = users.rank where shifts.day_of_week = #{dayOfWeek}
 </select>
 
 </mapper>

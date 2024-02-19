@@ -101,7 +101,7 @@ public class AdminController {
 				});*/
 
 		// 8. 最終的に選択されたアイアンシフトのリストをコンソールに出力
-				System.out.println("う" + UsersShiftPreferencesList);
+//				System.out.println("う" + UsersShiftPreferencesList);
 
 		// 9. モデルに希望シフトリストを追加して、ビューに渡す
 		model.addAttribute("ShiftPreferences", UsersShiftPreferencesList);
@@ -113,11 +113,38 @@ public class AdminController {
 		return "adminHome";
 	}
 
+	//確定シフトへ日付毎の希望シフトを登録
 	@GetMapping("/addShift")
 	public String addShift(Model model,HttpSession session, @RequestParam LocalDate selectDate,Shifts shifts) {
 		//session.getAttribute("UsersShiftPreferencesList");
-
-		shiftService.getShiftByDate(selectDate);
+		//shiftService.getShiftByDate(selectDate);
+		
 		return "Shift";
+	}
+
+	
+	@PostMapping("/addShift")
+	public String postShift(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {
+		shiftService.getShiftByDate(selectDate);
+		
+		return "redirect:/admin/ShiftList?selectDate=" + selectDate;
+		
+	}
+	//日毎の確定シフト一覧ページ表示処理
+	@GetMapping("/ShiftList")
+	public String getShiftList(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {
+		shiftService.getselectShiftAll(selectDate);
+		//model.addAttribute("selectDate"+shifts);
+		model.addAttribute("selectShifts",shiftService.getselectShiftAll(selectDate));
+		/*System.out.println(shiftService.getselectShiftAll(selectDate));*/
+		return "ShiftList";
+	}
+	
+	@PostMapping("/ShiftList")
+	public String postShiftList(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {
+		
+		shiftService.getselectShiftAll(selectDate);
+		model.addAttribute("selectShifts",shiftService.getselectShiftAll(selectDate));
+		return "ShiftList";
 	}
 }

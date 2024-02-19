@@ -91,7 +91,7 @@ public class ShiftServiceImpl implements ShiftService {
     // 10. 処理後のリストを返す
 //    return UsersShiftPreferencesList;
   		for(ShiftPreferences shiftPreferences : UsersShiftPreferencesList) {
-  			System.out.println(shiftPreferences);
+  			//System.out.println(shiftPreferences);
   			shiftMapper.ShiftsAdd(shiftPreferences);
   		}
 }
@@ -119,8 +119,11 @@ public class ShiftServiceImpl implements ShiftService {
   }
 */
     @Override
-    public void addShifts(Shifts shifts) {
-        // TODO 自動生成されたメソッド・スタブ
+		public List<Shifts> getselectShiftAll(LocalDate selectDate) {
+        List<Shifts>selectShifts = shiftMapper.selectShiftAll(selectDate);
+//        System.out.println(selectShifts);
+				return selectShifts;
+
 
     }
 

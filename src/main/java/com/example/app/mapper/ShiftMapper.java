@@ -1,5 +1,6 @@
 package com.example.app.mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +15,7 @@ public interface ShiftMapper {
 	void ShiftsAdd(ShiftPreferences youngestIronShift);
 	
 	//確定シフトの一覧情報
-	List<Shifts>selectShiftAll();
+	List<Shifts>selectShiftAll(LocalDate selectDate);
 	
 	
 

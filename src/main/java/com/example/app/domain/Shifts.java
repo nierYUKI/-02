@@ -25,7 +25,7 @@ public class Shifts {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private LocalDate dayOfWeek;//確定シフト日
 	
-	private String username;//アルバイトの名前
+	private String userName;//アルバイトの名前
 	private String rankName;//アルバイトのランク名
 	private Integer rankId;//ランクID
 

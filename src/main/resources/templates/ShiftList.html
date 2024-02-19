@@ -24,13 +24,10 @@
         </div>
 
 
-<form id="dateForm" action="" method="post">
-    <input type="hidden" name="selectDate" id="selectedDate" value="${selectDate}">
+<form id="dateForm" action="/admin/ShiftList" method="post">
+    <input type="hidden" name="selectDate" class="selectedDate" value="${selectDate}">
 </form>
-<form action="selectShiftAll" method="post">
-	<input type="hidden" name="selectDate" class="selectedDate" th:value="${selectDate}">
-	<input type="submit" value="シフト確定">
-</form>
+
 
 <table border="1">
 
@@ -43,11 +40,11 @@
 	<th class='tdclass'>希望シフト承認</th>
 </tr>
 
-<tr th:each="selectShifts : ${Shifts}" th:object=${shifts}>
+<tr th:each="shifts : ${selectShifts}" th:object=${shifts}>
 	<td th:text="*{dayOfWeek}"></td>
-	<td th:text="*{startTime}"></td>
-	<td th:text="*{endTime}"></td>
-	<td th:text="*{username}"></td>
+	<td th:text="*{startDateTime}"></td>
+	<td th:text="*{endDateTime}"></td>
+	<td th:text="*{userName}"></td>
 	<td th:text="*{rankName}"></td>
 	<td th:text="*{isApproved}"></td>
 	

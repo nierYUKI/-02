@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.example.app.domain.Shifts;
 
@@ -11,7 +12,7 @@ public interface ShiftService {
 	void getShiftByDate(LocalDate selectDate);
 	
 	
-	//上記2つのメソッドが終了すればshifts(シフト確定)テーブルに挿入するメソッド
-	void addShifts(Shifts shifts);
+	//日付毎の確定シフト
+	List<Shifts> getselectShiftAll(LocalDate selectDate);
 
 }
