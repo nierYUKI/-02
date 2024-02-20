@@ -44,10 +44,14 @@ public class AdminController {
 	public String postAdminShiftList(Model model, 
 			ShiftPreferences shiftPreferences,
 			HttpSession session,
-			@RequestParam LocalDate selectDate) {
+			@RequestParam LocalDate selectDate
+
+			) {
 		model.addAttribute("selectDate", selectDate);
 		// 1. 指定された日付でデータベースからシフトの希望リストを取得
 		List<ShiftPreferences> UsersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
+		
+		
 		/*		System.out.println(UsersShiftPreferencesList);
 		
 				// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
@@ -124,8 +128,21 @@ public class AdminController {
 
 	
 	@PostMapping("/addShift")
-	public String postShift(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {
-		shiftService.getShiftByDate(selectDate);
+	public String postShift(Model model,@RequestParam LocalDate selectDate,
+			@RequestParam LocalDate startDate,
+			@RequestParam LocalDate endDate,
+			Shifts shifts) {
+		
+		
+		
+		if(startDate !=null && endDate != null) {
+			//2つ
+			shiftService.getweekShiftDate(startDate, endDate);//日付を範囲指定した確定処理
+			
+		}else {
+			//1つ
+			shiftService.getShiftByDate(selectDate);//日毎の確定処理
+		}
 		
 		return "redirect:/admin/ShiftList?selectDate=" + selectDate;
 		
@@ -142,8 +159,8 @@ public class AdminController {
 	
 	@PostMapping("/ShiftList")
 	public String postShiftList(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {
-		
 		shiftService.getselectShiftAll(selectDate);
+		
 		model.addAttribute("selectShifts",shiftService.getselectShiftAll(selectDate));
 		return "ShiftList";
 	}

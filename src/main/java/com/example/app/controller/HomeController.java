@@ -59,7 +59,7 @@ public class HomeController {
 	public String getDesiredShiftList(Model model, HttpSession session,ShiftPreferences shiftPreferences) {
 		Users users = (Users) session.getAttribute("loggedInUser");
 		List<ShiftPreferences> ShiftPreferencesList = shiftPreferencesMapper.shiftPreferencesById(users.getUserId());
-		System.out.println("ShiftPreferencesList->"+ShiftPreferencesList);
+		//System.out.println("ShiftPreferencesList->"+ShiftPreferencesList);
 		
 		model.addAttribute("ShiftPreferences", ShiftPreferencesList);
 	//	htmlのth:eachの" :${この部分の名前}"

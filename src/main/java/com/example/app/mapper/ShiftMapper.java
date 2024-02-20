@@ -17,6 +17,8 @@ public interface ShiftMapper {
 	//確定シフトの一覧情報
 	List<Shifts>selectShiftAll(LocalDate selectDate);
 	
+	void WeekShiftsAdd(ShiftPreferences WeekUsersShiftPreferencesList);
+	
 	
 
 }

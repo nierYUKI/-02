@@ -41,6 +41,8 @@ public class ShiftServiceImpl implements ShiftService {
   		// 2. 同じ日付でデータベースからシフトの希望リストをもう一度取得
   		List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
 
+  	  		
+  		
   		// 3. アイアンシフトの最適なリストを格納するリスト
   		List<ShiftPreferences> shiftList = new ArrayList<>();
 
@@ -118,7 +120,9 @@ public class ShiftServiceImpl implements ShiftService {
       }
   }
 */
+
     @Override
+    //確定テーブルに登録した日付ごとのデータ一覧取得
 		public List<Shifts> getselectShiftAll(LocalDate selectDate) {
         List<Shifts>selectShifts = shiftMapper.selectShiftAll(selectDate);
 //        System.out.println(selectShifts);
@@ -126,6 +130,21 @@ public class ShiftServiceImpl implements ShiftService {
 
 
     }
+
+		@Override
+		public void getweekShiftDate(LocalDate startDate, LocalDate endDate) {
+	  	//範囲指定した日付でデータベースからシフトの希望リストを取得
+  		List<ShiftPreferences>WeekUsersShiftPreferencesList = shiftPreferencesMapper.weekShiftDate(startDate,endDate);
+  		
+  		
+  		
+  		
+  		for(ShiftPreferences shiftPreferences : WeekUsersShiftPreferencesList) {
+  			System.out.println(shiftPreferences);
+  			shiftMapper.WeekShiftsAdd(shiftPreferences);
+  		}
+  		
+		}
 
     // その他のメソッドやクラスの定義...
 

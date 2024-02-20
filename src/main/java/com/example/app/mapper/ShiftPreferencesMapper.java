@@ -26,4 +26,8 @@ public interface ShiftPreferencesMapper {
 	//希望シフトの更新処理？
 	void updateShiftPreference(ShiftPreferences shift);
 
+	//範囲指定日の希望シフト一覧取得
+	List<ShiftPreferences> weekShiftDate(LocalDate startDate, LocalDate endDate);
+	
+	
 }

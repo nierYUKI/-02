@@ -38,10 +38,10 @@ public class UsersController {
 	
 	@PostMapping("/add")//サービスユーザー登録
 	public String postadd(Model model, Users users) {
-		System.out.println(users);
+		//System.out.println(users);
 	  //通常のユーザー情報を挿入
-		System.out.println(jobRoleMapper.selectJobRoleAll());
-		System.out.println(jobRankMapper.selectJobRankAll());
+		//System.out.println(jobRoleMapper.selectJobRoleAll());
+		//System.out.println(jobRankMapper.selectJobRankAll());
 		Usersmapper.add(users);
     model.addAttribute("jobRanks",jobRankMapper.selectJobRankAll());
     model.addAttribute("jobRoles",jobRoleMapper.selectJobRoleAll());
