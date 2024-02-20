@@ -32,15 +32,23 @@
 
 <form action="addShift" method="post">
 	<input type="hidden" name="selectDate" class="selectedDate" th:value="${selectDate}">
+	<!-- 範囲指定した日付の確定シフト処理考え中 -->
+	<input type="date" name="startDate" >
+	<input type="date" name="endDate" >
+	
 	<input type="submit" value="シフト確定">
 </form>
 <table border="1">
+
+
 
 <tr>
 	<th  class='tdclass'>希望シフト日</th>
 	<th class='tdclass'>希望シフト開始時間</th>
 	<th class='tdclass'>希望シフト終了時間</th>
 	<th class='tdclass'>アルバイトの名前</th>
+	<th class='tdclass'>userId</th>
+	
 	<th class='tdclass'>Rank</th>
 	<th class='tdclass'>希望シフト承認</th>
 </tr>
@@ -50,6 +58,7 @@
 	<td th:text="*{startTime}"></td>
 	<td th:text="*{endTime}"></td>
 	<td th:text="*{username}"></td>
+	<td th:text="*{userId}"></td>
 	<td th:text="*{rankName}"></td>
 	<td th:text="*{isApproved}"></td>
 	
@@ -58,9 +67,6 @@
 
 
 </table>
-    
-
-
     
 </body>
 </html>
