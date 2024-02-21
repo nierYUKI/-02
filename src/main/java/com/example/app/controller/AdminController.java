@@ -128,25 +128,22 @@ public class AdminController {
 
 	
 	@PostMapping("/addShift")
-	public String postShift(Model model,@RequestParam LocalDate selectDate,
-			@RequestParam LocalDate startDate,
-			@RequestParam LocalDate endDate,
-			Shifts shifts) {
-		
-		
-		
-		if(startDate !=null && endDate != null) {
-			//2つ
-			shiftService.getweekShiftDate(startDate, endDate);//日付を範囲指定した確定処理
-			
-		}else {
-			//1つ
-			shiftService.getShiftByDate(selectDate);//日毎の確定処理
-		}
-		
-		return "redirect:/admin/ShiftList?selectDate=" + selectDate;
-		
+	public String postShift(Model model,
+	                        @RequestParam LocalDate selectDate,
+	                        @RequestParam(required = false) LocalDate startDate,
+	                        @RequestParam(required = false) LocalDate endDate,
+	                        Shifts shifts) {
+	    if (startDate != null && endDate != null) {
+	        // 日付を範囲指定した確定処理
+	        shiftService.getweekShiftDate(startDate, endDate);
+	    } else {
+	        // 日毎の確定処理
+	        shiftService.getShiftByDate(selectDate);
+	    }
+	    
+	    return "redirect:/admin/ShiftList?selectDate=" + selectDate;
 	}
+
 	//日毎の確定シフト一覧ページ表示処理
 	@GetMapping("/ShiftList")
 	public String getShiftList(Model model,@RequestParam LocalDate selectDate,Shifts shifts) {

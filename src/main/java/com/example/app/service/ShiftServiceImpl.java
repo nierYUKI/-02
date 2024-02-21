@@ -136,11 +136,11 @@ public class ShiftServiceImpl implements ShiftService {
 	  	//範囲指定した日付でデータベースからシフトの希望リストを取得
   		List<ShiftPreferences>WeekUsersShiftPreferencesList = shiftPreferencesMapper.weekShiftDate(startDate,endDate);
   		
-  		
+  		System.out.println(WeekUsersShiftPreferencesList);
   		
   		
   		for(ShiftPreferences shiftPreferences : WeekUsersShiftPreferencesList) {
-  			System.out.println(shiftPreferences);
+  			//System.out.println(shiftPreferences);
   			shiftMapper.WeekShiftsAdd(shiftPreferences);
   		}
   		
