@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,13 +132,37 @@ public class ShiftServiceImpl implements ShiftService {
 
     }
 
-		@Override
-		public void getweekShiftDate(LocalDate startDate, LocalDate endDate) {
-	  	//範囲指定した日付でデータベースからシフトの希望リストを取得
-  		List<ShiftPreferences>WeekUsersShiftPreferencesList = shiftPreferencesMapper.weekShiftDate(startDate,endDate);
-  		
-  		System.out.println(WeekUsersShiftPreferencesList);
-  		
+    
+    
+    @Override
+    public void getweekShiftDate(LocalDate startDate, LocalDate endDate) {
+        // 範囲指定した日付でデータベースからシフトの希望リストを取得
+        List<ShiftPreferences> WeekUsersShiftPreferencesList = shiftPreferencesMapper.weekShiftDate(startDate, endDate);
+      
+        // 希望シフトを日付毎(dayOfWeek)でグループ化
+        Map<LocalDate, List<ShiftPreferences>> groupedPreferencesByDate = WeekUsersShiftPreferencesList.stream()
+                .collect(Collectors.groupingBy(ShiftPreferences::getDayOfWeek));
+
+        // 日付毎のグループを昇順にソート
+        TreeMap<LocalDate, List<ShiftPreferences>> sortedGroupedPreferencesByDate = new TreeMap<>(groupedPreferencesByDate);
+
+        // 各日付毎のグループを開始時間(startTime)でさらにグループ化し、各ランクのアルバイト数を数える
+        sortedGroupedPreferencesByDate.forEach((date, preferencesList) -> {
+            Map<LocalTime, Map<Integer, Long>> groupedPreferencesByStartTimeAndRank = preferencesList.stream()
+                    .collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 開始時間でグループ化
+                            Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()))); // 各ランクのアルバイト数を数える
+
+            // 各日付、開始時間、ランク毎のアルバイト数を出力
+            groupedPreferencesByStartTimeAndRank.forEach((startTime, rankCountMap) -> {
+                System.out.println("Date: " + date + ", StartTime: " + startTime);
+                rankCountMap.forEach((rankId, count) -> {
+                    System.out.println("\tRank ID: " + rankId + ", Count: " + count);
+                });
+            });
+        });
+    
+
+  
   		
   		for(ShiftPreferences shiftPreferences : WeekUsersShiftPreferencesList) {
   			//System.out.println(shiftPreferences);
