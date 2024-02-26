@@ -22,4 +22,10 @@ values(#{userId},#{startTime},#{endTime},#{isApproved},#{shiftType},#{breakDurat
 
 </insert>
 
+
+<select id="getTotalShiftsForWeek" resultType="int">
+    select count(*) from shifts
+    where start_datetime &gt;= #{startDate} and end_datetime &lt;= #{endDate}
+</select>
+
 </mapper>

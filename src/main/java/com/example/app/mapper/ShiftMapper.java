@@ -19,6 +19,7 @@ public interface ShiftMapper {
 	
 	void WeekShiftsAdd(ShiftPreferences WeekUsersShiftPreferencesList);
 	
+	int getTotalShiftsForWeek(LocalDate startDate, LocalDate endDate);
 	
 
 }
