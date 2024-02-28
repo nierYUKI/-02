@@ -26,6 +26,7 @@ public class UsersController {
 	private final JobRoleMapper jobRoleMapper;
 
 	//接続先URL(localhost:8080/user/add)
+	//外部接続先URL(http://java.apps.rok.jp:22789/user/login)
 	@GetMapping("/add")//サービスユーザー登録
 	public String getadd(Model model) {
 		model.addAttribute("users",new Users());

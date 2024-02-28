@@ -35,7 +35,7 @@ public class ShiftServiceImpl implements ShiftService {
 	}
 
 	//List<ShiftPreferences>
-  public void getShiftByDate(LocalDate selectDate) {
+	public void getShiftByDate(LocalDate selectDate) {
     // 1. 指定された日付でデータベースからシフトの希望リストを取得
     List<ShiftPreferences> usersShiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(selectDate);
 
@@ -47,6 +47,8 @@ public class ShiftServiceImpl implements ShiftService {
             .collect(Collectors.groupingBy(ShiftPreferences::getStartTime, // 時間帯ごとにグループ化
                     Collectors.groupingBy(ShiftPreferences::getRankId))); // ランクごとにグループ化
 
+    System.out.println("shiftByTimeAndRank"+shiftByTimeAndRank);
+    
     // 4. 各時間帯の開始時間を取得
     for (Map.Entry<LocalTime, Map<Integer, List<ShiftPreferences>>> entry : shiftByTimeAndRank.entrySet()) {
         LocalTime startTime = entry.getKey();
@@ -55,10 +57,9 @@ public class ShiftServiceImpl implements ShiftService {
         // 5. アイアンランクのシフトを取得
         List<ShiftPreferences> ironShifts = rankShiftsMap.getOrDefault(1, Collections.emptyList());
         if (!ironShifts.isEmpty()) {
-            ShiftPreferences youngestIronShift = ironShifts.stream()
-                    .min(Comparator.comparing(ShiftPreferences::getPreferenceId))
-                    .orElse(null);
-            shiftList.add(youngestIronShift);
+            // アイアンランクのシフトがある場合は、ランダムに一人だけ選出する
+            Collections.shuffle(ironShifts);
+            shiftList.add(ironShifts.get(0));
         }
 
         // 6. アイアンランク以外のランダムなシフトを取得
@@ -71,12 +72,17 @@ public class ShiftServiceImpl implements ShiftService {
             shiftList.add(nonIronShifts.get(0));
         }
     }
+    // 8. シフトリストを開始時間でソート
+    shiftList.sort(Comparator.comparing(ShiftPreferences::getStartTime));
 
     // 7. 選択された希望シフトをデータベースに登録
     for (ShiftPreferences shiftPreferences : shiftList) {
         shiftMapper.ShiftsAdd(shiftPreferences);
     }
+    
+
 }
+
 
 
 	@Override
@@ -90,55 +96,49 @@ public class ShiftServiceImpl implements ShiftService {
 
 	@Override
 	public void getweekShiftDate(LocalDate startDate, LocalDate endDate) {
-		int totalRegisteredShifts = 0; // 初期値を0に設定
+		//int totalRegisteredShifts = 0; // 初期値を0に設定
 
-		// 1. 日付範囲でシフトの希望をデータベースから取得
-		//List<ShiftPreferences> WeekUsersShiftPreferencesList = shiftPreferencesMapper.weekShiftDate(startDate, endDate);
-
-    // 日付毎に希望シフトをグループ化して処理を開始するために日付をソート
+	  // 日付毎に希望シフトをグループ化して処理を開始するために日付をソート
     TreeMap<LocalDate, List<ShiftPreferences>> sortedShiftsByDate = new TreeMap<>();
 
-
-    // 2. 各日付の希望シフトを処理
-    for (Map.Entry<LocalDate, List<ShiftPreferences>> entry : sortedShiftsByDate.entrySet()) {
-        LocalDate date = entry.getKey();
-        List<ShiftPreferences> preferencesList = entry.getValue();
-
-        // 3. 各日付の希望シフトを開始時間でグループ化
-        Map<LocalTime, List<ShiftPreferences>> groupedPreferencesByStartTime = preferencesList.stream()
-                .collect(Collectors.groupingBy(ShiftPreferences::getStartTime));
-
-        // 4. 各開始時間の希望シフトを処理
-        for (Map.Entry<LocalTime, List<ShiftPreferences>> startTimeEntry : groupedPreferencesByStartTime.entrySet()) {
-            LocalTime startTime = startTimeEntry.getKey();
-            List<ShiftPreferences> shiftPreferences = startTimeEntry.getValue();
-
-            // 5. 各ランクのアルバイト数を数える
-            Map<Integer, Long> rankCounts = shiftPreferences.stream()
-                    .collect(Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()));
-
-            // ここで希望シフトの処理を行います
-            // 各ランクのアルバイト数を数える処理は既にgetShiftByDateメソッド内で行われています
-
-            // 以下には、各時間帯と各ランクのアルバイト数を数えるログの出力処理が入ります
-            System.out.println("日付: " + date + ", 開始時間: " + startTime);
-            for (Map.Entry<Integer, Long> rankEntry : rankCounts.entrySet()) {
-                int rankId = rankEntry.getKey();
-                long count = rankEntry.getValue();
-                System.out.println("  ランクID: " + rankId + ", アルバイト数: " + count);
-            }
-        }
-    }
-    
+    // 1. 日付範囲でシフトの希望をデータベースから取得してソート
     while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
-      // 1. 日付毎に希望シフトをグループ化して処理を開始するために日付をソート
-      List<ShiftPreferences> shiftPreferencesList = shiftPreferencesMapper.selectShiftByDate(startDate);
-      sortedShiftsByDate.put(startDate, shiftPreferencesList);
+      getShiftByDate(startDate);
       startDate = startDate.plusDays(1);
   }
-	}
 }
-    
+
+
+//    // 2. 各日付の希望シフトを処理
+//    for (Map.Entry<LocalDate, List<ShiftPreferences>> entry : sortedShiftsByDate.entrySet()) {
+//        LocalDate date = entry.getKey();
+//        List<ShiftPreferences> preferencesList = entry.getValue();
+//
+//        // 3. 各日付の希望シフトを開始時間でグループ化
+//        Map<LocalTime, List<ShiftPreferences>> groupedPreferencesByStartTime = preferencesList.stream()
+//                .collect(Collectors.groupingBy(ShiftPreferences::getStartTime));
+//
+	}
+//        // 4. 各開始時間の希望シフトを処理
+//        for (Map.Entry<LocalTime, List<ShiftPreferences>> startTimeEntry : groupedPreferencesByStartTime.entrySet()) {
+//            LocalTime startTime = startTimeEntry.getKey();
+//            List<ShiftPreferences> shiftPreferences = startTimeEntry.getValue();
+//
+//            // 5. 各ランクのアルバイト数を数える
+//            Map<Integer, Long> rankCounts = shiftPreferences.stream()
+//                    .collect(Collectors.groupingBy(ShiftPreferences::getRankId, Collectors.counting()));
+//
+//            // 以下には、各時間帯と各ランクのアルバイト数を数えるログの出力処理が入ります
+//            System.out.println("日付: " + date + ", 開始時間: " + startTime);
+//            for (Map.Entry<Integer, Long> rankEntry : rankCounts.entrySet()) {
+//                int rankId = rankEntry.getKey();
+//                long count = rankEntry.getValue();
+//                System.out.println("  ランクID: " + rankId + ", アルバイト数: " + count);
+//            }
+//        }
+//    }
+//}
+  
 
 		/*
 		// 2. 日付毎に希望シフトをグループ化して処理を開始するために日付をソート

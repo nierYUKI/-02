@@ -14,8 +14,9 @@ select day_of_week,start_time,end_time,is_approved from shift_preferences join u
 
 </select>
 
+<!-- 選択した日付の希望シフト一覧 -->
 <select  id="selectShiftByDate">
-select preference_id,shift_preferences.user_id,day_of_week,start_time,end_time,is_approved,username,rank_id,rank_name from shift_preferences join users on shift_preferences.user_id = users.user_id join job_rank on job_rank.rank_id = users.rank where shift_preferences.day_of_week = #{dayOfWeek}
+select preference_id,shift_preferences.user_id,day_of_week,start_time,end_time,is_approved,username,rank_id,rank_name from shift_preferences join users on shift_preferences.user_id = users.user_id join job_rank on job_rank.rank_id = users.rank where shift_preferences.day_of_week = #{dayOfWeek} order by shift_preferences.start_time asc
 </select>
 
 <!-- 範囲指定した希望シフトの取得 -->
